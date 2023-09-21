@@ -129,7 +129,7 @@
 
 .main-page--rectangle {
   width: 55%;
-  height: 8rem;
+  height: 50%;
   background-color: #fefefe;
   opacity: 0.9;
   padding: 5rem 5rem;
@@ -172,6 +172,18 @@
   cursor: pointer;
 }
 
+@media (max-width: 718px) {
+  .h1 {
+    font-size: 2.3rem;
+  }
+
+  .main-page--rectangle {
+    width: 90%;
+    height: 70%;
+    padding: 1rem;
+  }
+}
+
 /** MAIN PAGE TOP RECIPES **/
 
 .top-recipes {
@@ -182,7 +194,10 @@
 
 .recipes-cards {
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-evenly;
+  gap: 1rem;
 }
 
 .recipe-rating {
@@ -241,18 +256,20 @@
 
 .search-by-meal-meals {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 1.5rem;
   padding: 1rem 2rem;
 }
 
 .meal-div {
-  height: 12rem;
+  height: 100%;
   width: 12rem;
 }
 
 .meal-div-img {
   width: 100%;
-  height: 100%;
+  height: 12rem;
   object-fit: cover;
 }
 
