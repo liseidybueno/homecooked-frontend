@@ -28,6 +28,6 @@ Please keep in mind that this is currently a work in progress! I will be updatin
 
 I'm also #buildinginpublic and participating in #100daysofcode via X (formerly Twitter).
 
-Follow me here: <a href="https://www.x.com/codesandtravels>@codesandtravels</a>
+Follow me here: (https://www.x.com/codesandtravels "@codesandtravels on X")
 
 While it's a pretty straightforward app, I'd love to also add a meal planner with a calorie and macros counter component once the main functionality of the app is completed.
