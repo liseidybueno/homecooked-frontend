@@ -1,0 +1,24 @@
+{
+  "searchByMeal": [
+    {
+      "img": "/images/search-by-meals/appetizers.jpg",
+      "meal": "Appetizers"
+    },
+    {
+      "img": "/images/search-by-meals/breakfast.jpg",
+      "meal": "Breakfast"
+    },
+    {
+      "img": "/images/search-by-meals/lunch.jpg",
+      "meal": "Lunch"
+    },
+    {
+      "img": "/images/search-by-meals/dinner.jpg",
+      "meal": "Dinner"
+    },
+    {
+      "img": "/images/search-by-meals/desserts.jpg",
+      "meal": "Dessert"
+    }
+  ]
+}

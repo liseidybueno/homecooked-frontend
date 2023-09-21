@@ -1,0 +1,40 @@
+{
+  "recipes": [
+    {
+      "course": "Breakfast",
+      "img": "/images/recipe-3.jpg",
+      "recipeName": "Pancakes",
+      "recipeAuthor": "Rory Gilmore",
+      "cuisine": "American",
+      "totalTime": 90,
+      "rating": 5
+    },
+    {
+      "course": "Dessert",
+      "img": "/images/recipe-2.jpg",
+      "recipeName": "Banana Bread",
+      "recipeAuthor": "Paris Geller",
+      "cuisine": "American",
+      "totalTime": 120,
+      "rating": 3.8
+    },
+    {
+      "course": "Dinner",
+      "img": "/images/recipe-4.jpg",
+      "recipeName": "Paella",
+      "recipeAuthor": "Wania Salado",
+      "cuisine": "Spanish",
+      "totalTime": 140,
+      "rating": 4.7
+    },
+    {
+      "course": "Lunch",
+      "img": "/images/recipe-1.jpg",
+      "recipeName": "Shrimp Salad",
+      "recipeAuthor": "Rachel Green",
+      "cuisine": "American",
+      "totalTime": 40,
+      "rating": 4.3
+    }
+  ]
+}
