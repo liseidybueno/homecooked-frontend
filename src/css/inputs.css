@@ -1,0 +1,33 @@
+.input-container {
+  margin-top: 1rem;
+}
+
+.inputs {
+  width: 100%;
+  background-color: #f2f4f8;
+  border-bottom: 1px solid #697077;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.inputs input {
+  padding: 0.8rem;
+  background-color: transparent;
+  border: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+.text-inputs-label {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+}
+
+.input-info-text {
+  color: #697077;
+  font-size: 0.7rem;
+  margin-top: 0.5rem;
+}

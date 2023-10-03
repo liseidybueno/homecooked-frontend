@@ -1,9 +1,10 @@
-import TertiaryButton from "../button/TertiaryButton";
+import TertiaryButton from "../../components/buttons/TertiaryButton";
 import Recipe from "./Recipe";
 import topRecipes from "../../mocks/top-recipes.json";
 import SearchByMeal from "./SearchByMeal";
+import { Link } from "react-router-dom";
 
-export default function MainPage() {
+export default function MainPage(props: any) {
   function formatTime(time: number) {
     const hours = Math.floor(time / 60);
     const minutes = time - hours * 60;
@@ -21,6 +22,8 @@ export default function MainPage() {
 
     return `${formattedHours} ${formattedMinutes}`;
   }
+
+  props.setIsLoginOrSignup(false);
 
   return (
     <>
@@ -41,7 +44,7 @@ export default function MainPage() {
               />
               <TertiaryButton
                 className="tertiary-btn-light"
-                text="Search Recipes"
+                text="Create a Recipe"
               />
             </div>
           </div>

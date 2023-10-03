@@ -1,32 +1,122 @@
-import "../App.css";
-import PrimaryButton from "./button/PrimaryButton";
-import SecondaryButton from "./button/SecondaryButton";
+import { useState } from "react";
+import "../css/App.css";
+import PrimaryButton from "./buttons/PrimaryButton";
+import SecondaryButton from "./buttons/SecondaryButton";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
 
-export default function Header() {
-  const loggedIn = false;
+import { NavLink } from "react-router-dom";
+library.add(faBars);
+
+export default function Header(props: any) {
+  const loggedIn = localStorage.getItem("user") ? true : false;
+
+  const [isByMealMenuShown, setMealMenuShown] = useState(false);
+  const [isByCuisineMenuShown, setCuisineMenuShown] = useState(false);
+  const [isProfileMenuShown, setProfileMenuShown] = useState(false);
+
+  function handleHamburgerMenuClick() {
+    setProfileMenuShown(() => !isProfileMenuShown);
+  }
+
+  function handleLogout(event: any) {
+    props.setUser({ username: "", password: "" });
+    localStorage.removeItem("user");
+  }
 
   return (
     <div className="header">
       <nav className="first-navbar">
         <img src="/images/homecooked.svg" />
         <ul className="seconday-navbar-menu">
-          <li className="seconday-navbar-item">By Meal</li>
-          <li className="seconday-navbar-item">By Cuisine</li>
+          <li
+            onClick={() => setMealMenuShown(!isByMealMenuShown)}
+            className="seconday-navbar-item"
+          >
+            By Meal
+            <img className="menu-down-arrow" src="/images/menu-down.png" />
+          </li>
+          <li
+            onClick={() => setCuisineMenuShown(!isByCuisineMenuShown)}
+            className="seconday-navbar-item"
+          >
+            By Cuisine
+            <img className="menu-down-arrow" src="/images/menu-down.png" />
+          </li>
           <li className="seconday-navbar-item">{`< 30 Minutes`}</li>
         </ul>
-      </nav>
-      <nav className="secondary-navbar">
-        {loggedIn ? (
-          <div className="right-side-nav">
-            <button>Nav</button>
+
+        {isByMealMenuShown && !isByCuisineMenuShown && (
+          <div
+            onMouseOver={() => setMealMenuShown(true)}
+            onMouseOut={() => setMealMenuShown(false)}
+            className="navbar-dropdown-menu"
+          >
+            <ul className="navbar-dropdown-menu-items">
+              <li className="navbar-dropdown-menu-item">Appetizers</li>
+              <li className="navbar-dropdown-menu-item">Breakfast</li>
+              <li className="navbar-dropdown-menu-item">Lunch</li>
+              <li className="navbar-dropdown-menu-item">Dinner</li>
+              <li className="navbar-dropdown-menu-item">Dessert</li>
+              <li className="navbar-dropdown-menu-item">Snacks</li>
+            </ul>
           </div>
-        ) : (
-          <div className="right-side-nav">
-            <PrimaryButton className="login-button" text="Log In" />
-            <SecondaryButton className="signup-button" text="Sign Up" />
+        )}
+
+        {isByCuisineMenuShown && !isByMealMenuShown && (
+          <div
+            onMouseOver={() => setCuisineMenuShown(true)}
+            onMouseOut={() => setCuisineMenuShown(false)}
+            className="cuisine-menu navbar-dropdown-menu"
+          >
+            <ul className="navbar-dropdown-menu-items">
+              <li className="navbar-dropdown-menu-item">American</li>
+              <li className="navbar-dropdown-menu-item">Italian</li>
+              <li className="navbar-dropdown-menu-item">Spanish</li>
+              <li className="navbar-dropdown-menu-item">Mexican</li>
+              <li className="navbar-dropdown-menu-item">Indian</li>
+              <li className="navbar-dropdown-menu-item">Caribbean</li>
+              <li className="navbar-dropdown-menu-item">Greek</li>
+            </ul>
           </div>
         )}
       </nav>
+      {!props.user && (
+        <nav className="secondary-navbar">
+          {loggedIn ? (
+            <div className="loggedin-nav right-side-nav">
+              <img className="profile-pic" src="/images/profilepic.jpg" />
+              <div onClick={handleHamburgerMenuClick} className="hamburger-nav">
+                <FontAwesomeIcon icon={faBars} style={{ color: "#000000" }} />
+              </div>
+              {isProfileMenuShown && (
+                <div className="profile-menu navbar-dropdown-menu">
+                  <ul className="navbar-dropdown-menu-items">
+                    <li className="profile-menu-item">Home</li>
+                    <li className="profile-menu-item">Profile</li>
+                    <li className="profile-menu-item">My Recipes</li>
+                    <li className="profile-menu-item">Add Recipe</li>
+                    <li className="profile-menu-item">Saved Recipes</li>
+                    <li className="profile-menu-item">Account</li>
+                    <li className="profile-menu-item">Help</li>
+                    <li onClick={handleLogout} className="profile-menu-item">
+                      Log out
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="right-side-nav">
+              <NavLink to="/login">
+                <PrimaryButton className="login-button" text="Log In" />
+              </NavLink>
+              <SecondaryButton className="signup-button" text="Sign Up" />
+            </div>
+          )}
+        </nav>
+      )}
     </div>
   );
 }
