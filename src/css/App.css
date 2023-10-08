@@ -40,6 +40,16 @@
   font-size: 1rem;
 }
 
+.link {
+  font-family: var(--poppins);
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+.link:hover {
+  color: var(--secondary-shade);
+}
+
 /** BUTTONS */
 .primary-button {
   background-color: var(--primary-color);

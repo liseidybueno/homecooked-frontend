@@ -1,42 +1,29 @@
-import { useForm } from "react-hook-form";
-import EmailInput from "./inputs/EmailInput";
-import PasswordInput from "./inputs/PasswordInput";
-import { useState } from "react";
+import { NavLink } from "react-router-dom";
+import EmailInput from "../components/inputs/EmailInput";
+import PasswordInput from "../components/inputs/PasswordInput";
 
 export default function LogIn(props: any) {
-  // props.setIsLoginOrSignup(true);
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm();
-
-  // const onSubmit = (data: any) => {
-  //   console.log(data);
-  // };
-  // const username = props.username;
-  // const password = props.password;
-
+  function handleOnChange(event: any) {
+    event.preventDefault();
+    const { name, value } = event.target;
+    props.setCurrentUser((prevUserInfo: any) => {
+      return {
+        ...prevUserInfo,
+        [name]: value,
+      };
+    });
+  }
   async function handleSubmit(event: any) {
     event.preventDefault();
-
-    console.log("****Props username", props.username);
-    console.log("****props pw", props.password);
 
     const username = props.username;
     const password = props.password;
 
-    const user = { username, password };
+    const currentUser = { username, password };
+    props.setCurrentUser(currentUser);
 
-    //get response from backend API call
-    //if successful, set user
-    props.setUser(user);
-    console.log("***props.user", props.user);
-    localStorage.setItem("user", JSON.stringify(props.user));
-    console.log("***success!", props.user);
-
-    // console.log('****username', )
+    //look for the user in the DB and then set local storage to item
+    localStorage.setItem("currentUser", props.currentUser);
   }
 
   return (
@@ -51,11 +38,8 @@ export default function LogIn(props: any) {
             label="Email address"
             textInfo=""
             value={props.username}
-            setUsername={props.setUsername}
-            username={props.username}
+            onChange={handleOnChange}
           />
-          {/* <Input name="email" className="inputs" required={true} type="email" /> */}
-          {/* <input type="email" {...register("email")}></input> */}
           <PasswordInput
             name="password"
             required={true}
@@ -63,17 +47,16 @@ export default function LogIn(props: any) {
             textInfo="It must be a combination of minimum 8 letters, numbers, and
               symbols."
             value={props.password}
+            onChange={handleOnChange}
           />
           <div className="rememberMe-forgotPw">
             <div className="rememberMe">
               <input type="checkbox" name="rememberMe"></input>
-              <label className="rememberMe-label">Remember me</label>
+              <label className="checkbox-label">Remember me</label>
             </div>
             <span className="forgot-password">Forgot password?</span>
           </div>
           <button className="loginSignupSubmit">Log In</button>
-          {/* <br />
-          <hr className="line-break" /> */}
         </form>
         <div className="oAuth-login-container">
           <p>Or log in with:</p>
@@ -88,7 +71,9 @@ export default function LogIn(props: any) {
             </div>
           </div>
         </div>
-        <p className="no-account-yet">No account yet? Sign up</p>
+        <NavLink className="link" to="/signup">
+          <p className="no-account-yet">No account yet? Sign up</p>
+        </NavLink>
       </div>
     </div>
   );

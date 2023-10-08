@@ -20,7 +20,7 @@ export default function Header(props: any) {
     setProfileMenuShown(() => !isProfileMenuShown);
   }
 
-  function handleLogout(event: any) {
+  function handleLogout() {
     props.setUser({ username: "", password: "" });
     localStorage.removeItem("user");
   }
@@ -112,7 +112,9 @@ export default function Header(props: any) {
               <NavLink to="/login">
                 <PrimaryButton className="login-button" text="Log In" />
               </NavLink>
-              <SecondaryButton className="signup-button" text="Sign Up" />
+              <NavLink to="/signup">
+                <SecondaryButton className="signup-button" text="Sign Up" />
+              </NavLink>
             </div>
           )}
         </nav>

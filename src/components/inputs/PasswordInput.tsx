@@ -10,6 +10,7 @@ type PasswordInputProps = {
   label: string;
   textInfo: string;
   value: string;
+  onChange: any;
 };
 
 const IconButton = styled(Button)(`
@@ -31,7 +32,6 @@ const InputAdornment = styled("div")`
 
 export default function PasswordInput(props: PasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState(props.value);
 
   function handleClickShowPassword() {
     setShowPassword(() => !showPassword);
@@ -41,9 +41,9 @@ export default function PasswordInput(props: PasswordInputProps) {
     event.preventDefault();
   }
 
-  function handleChange(event: any) {
-    setPassword(event.target.value);
-  }
+  // function handleChange(event: any) {
+  //   setPassword(event.target.value);
+  // }
   return (
     <div className="input-container">
       <label className="text-inputs-label">{props.label}</label>
@@ -51,8 +51,8 @@ export default function PasswordInput(props: PasswordInputProps) {
         name="password"
         required={props.required}
         type={showPassword ? "text" : "password"}
-        value={password}
-        onChange={handleChange}
+        value={props.value}
+        onChange={props.onChange}
         className="inputs"
         endAdornment={
           <InputAdornment>

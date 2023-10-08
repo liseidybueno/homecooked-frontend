@@ -2,33 +2,24 @@ import "./css/App.css";
 import Header from "./components/Header";
 import MainPage from "./pages/MainPageSections/MainPage";
 import Footer from "./components/Footer";
-import LogIn from "./components/LogIn";
+import LogIn from "./pages/LogIn";
 import { Routes, Route } from "react-router-dom";
 import { useState } from "react";
+import SignUp from "./pages/SignUp";
 
 function App() {
-  // const [isLoginOrSignup, setIsLoginOrSignup] = useState(false);
-  // console.log("****isLoginOrSignup", isLoginOrSignup);
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState({
+  const [currentUser, setCurrentUser] = useState({
     username: "",
     password: "",
   });
 
   return (
     <>
-      <Header
-        // isLoginOrSignup={isLoginOrSignup}
-        // setIsLoginOrSignup={setIsLoginOrSignup}
-        setUser={setUser}
-      />
+      <Header setUser={setCurrentUser} />
       <Routes>
-        <Route
-          path="/"
-          // element={<MainPage setIsLoginOrSignup={setIsLoginOrSignup} />}
-        />
+        <Route path="/" element={<MainPage />} />
         <Route
           path="/login"
           element={
@@ -37,13 +28,14 @@ function App() {
               setUsername={setUsername}
               password={password}
               setPassword={setPassword}
-              user={user}
-              setUser={setUser}
+              user={currentUser}
+              setUser={setCurrentUser}
             />
           }
-          // element={<LogIn setIsLoginOrSignup={setIsLoginOrSignup} />}
         />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
+
       {/* <Route path="/" element={<MainPage />} /> */}
       {/* <MainPage /> */}
       <Footer />

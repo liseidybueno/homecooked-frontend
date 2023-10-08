@@ -1,15 +1,24 @@
 import { Input } from "@mui/base";
+import { useState } from "react";
 
-type EmailInputProps = {
+type TextInputProps = {
   name: string;
   required: boolean;
   label: string;
   textInfo: string;
   value: string;
   onChange: any;
+  // setUsername: any;
+  // username: string;
 };
 
-export default function EmailInput(props: EmailInputProps) {
+export default function TextInput(props: TextInputProps) {
+  // const [value, setValue] = useState(props.value);
+
+  // function handleChange(event: any) {
+  //   props.setValue(event.target.value);
+  // }
+  // console.log("****prop value", props.value);
   return (
     <div className="input-container">
       <label className="text-inputs-label">{props.label}</label>
@@ -17,7 +26,7 @@ export default function EmailInput(props: EmailInputProps) {
         name={props.name}
         className="inputs"
         required={props.required}
-        type="email"
+        type="text"
         value={props.value}
         onChange={props.onChange}
       ></Input>

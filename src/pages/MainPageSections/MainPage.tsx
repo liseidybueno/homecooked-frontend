@@ -2,9 +2,8 @@ import TertiaryButton from "../../components/buttons/TertiaryButton";
 import Recipe from "./Recipe";
 import topRecipes from "../../mocks/top-recipes.json";
 import SearchByMeal from "./SearchByMeal";
-import { Link } from "react-router-dom";
 
-export default function MainPage(props: any) {
+export default function MainPage() {
   function formatTime(time: number) {
     const hours = Math.floor(time / 60);
     const minutes = time - hours * 60;
@@ -22,8 +21,6 @@ export default function MainPage(props: any) {
 
     return `${formattedHours} ${formattedMinutes}`;
   }
-
-  props.setIsLoginOrSignup(false);
 
   return (
     <>
