@@ -2,7 +2,7 @@ import { Input } from "@mui/base";
 
 type EmailInputProps = {
   name: string;
-  required: boolean;
+  // required: boolean;
   label: string;
   textInfo: string;
   value: string;
@@ -16,7 +16,7 @@ export default function EmailInput(props: EmailInputProps) {
       <Input
         name={props.name}
         className="inputs"
-        required={props.required}
+        // required={props.required}
         type="email"
         value={props.value}
         onChange={props.onChange}

@@ -43,6 +43,11 @@
   align-self: center;
 }
 
+.loginSignupSubmit:disabled {
+  background-color: var(--primary-shade);
+  color: #5a656d;
+}
+
 .rememberMe-forgotPw {
   display: flex;
   justify-content: space-between;
@@ -124,6 +129,11 @@
   column-gap: 1rem;
 }
 
+.form-error-msg {
+  font-family: var(--poppins);
+  color: red;
+  font-size: 0.7rem;
+}
 /* PHONES */
 @media (max-width: 480px) {
   .login-box {

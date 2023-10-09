@@ -2,11 +2,12 @@ import { Input } from "@mui/base";
 
 type TextInputProps = {
   name: string;
-  required: boolean;
+  // required: boolean;
   label: string;
   textInfo: string;
   value: string;
   onChange: any;
+  errorMsg: string;
 };
 
 export default function TextInput(props: TextInputProps) {
@@ -16,12 +17,13 @@ export default function TextInput(props: TextInputProps) {
       <Input
         name={props.name}
         className="inputs"
-        required={props.required}
+        // required={props.required}
         type="text"
         value={props.value}
         onChange={props.onChange}
       ></Input>
       {props.textInfo && <p className="input-info-text">{props.textInfo}</p>}
+      {props.errorMsg && <p className="form-error-msg">{props.errorMsg}</p>}
     </div>
   );
 }

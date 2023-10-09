@@ -6,7 +6,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 type PasswordInputProps = {
   name: string;
-  required: boolean;
+  // required: boolean;
   label: string;
   textInfo: string;
   value: string;
@@ -41,15 +41,12 @@ export default function PasswordInput(props: PasswordInputProps) {
     event.preventDefault();
   }
 
-  // function handleChange(event: any) {
-  //   setPassword(event.target.value);
-  // }
   return (
     <div className="input-container">
       <label className="text-inputs-label">{props.label}</label>
       <Input
         name="password"
-        required={props.required}
+        // required={props.required}
         type={showPassword ? "text" : "password"}
         value={props.value}
         onChange={props.onChange}

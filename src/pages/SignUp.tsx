@@ -1,9 +1,9 @@
-import EmailInput from "../components/inputs/EmailInput";
 import TextInput from "../components/inputs/TextInput";
 import PasswordInput from "../components/inputs/PasswordInput";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { getData } from "../utils/data-utils";
+import validator from "validator";
 
 export default function SignUp() {
   type User = {
@@ -20,38 +20,141 @@ export default function SignUp() {
     password: "",
   });
 
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmedPassword, setConfirmedPassword] = useState("");
+
+  const [validatePasswordMessages, setValidatePasswordMessages] = useState(
+    new Array()
+  );
+
+  const [passwordsMatchMessage, setPasswordsMatchMessage] = useState("");
+
+  const [errorMessages, setErrorMessages] = useState({
+    firstNameErr: "",
+    lastNameErr: "",
+    emailErr: "",
+    passwordErr: "",
+  });
 
   function handleOnChange(event: any) {
     event.preventDefault();
     const { name, value } = event.target;
+
     setUserInfo((prevUserInfo) => {
       return {
         ...prevUserInfo,
-        [name]: value,
+        [name]: value.trimStart(),
       };
     });
   }
 
-  function handleConfirmPasswordChange(event: any) {
+  function handlePasswordOnChange(event: any) {
     event.preventDefault();
-    setConfirmPassword(event.target.value);
+
+    const password = event.target.value;
+
+    // setValidatePasswordMessages(passwordValidation(password));
+    setUserInfo((prevUserInfo) => {
+      return {
+        ...prevUserInfo,
+        password: password,
+      };
+    });
+  }
+
+  function handleConfirmedPasswordChange(event: any) {
+    event.preventDefault();
+    setConfirmedPassword(() => event.target.value);
+  }
+
+  function passwordValidation(password: string) {
+    const validationMessage = new Array();
+
+    if (password.length < 8) {
+      validationMessage.push("Password must be 8 characters or longer.");
+    }
+
+    if (!/[a-z]/.test(password)) {
+      validationMessage.push("Password must contain an lowercase letter.");
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      validationMessage.push("Password must contain an uppercase letter.");
+    }
+
+    if (!/\d/.test(password)) {
+      validationMessage.push("Password must contain a number");
+    }
+
+    return validationMessage;
+  }
+
+  function isRequired(name: string, value: string, errorMsg: string) {
+    if (value === "") {
+      setErrorMessages((prevErrorMsg) => {
+        return {
+          ...prevErrorMsg,
+          [name]: errorMsg,
+        };
+      });
+    } else {
+      setErrorMessages((prevErrorMsg) => {
+        return {
+          ...prevErrorMsg,
+          [name]: "",
+        };
+      });
+    }
   }
 
   async function handleSubmit(event: any) {
     event.preventDefault();
 
-    console.log("****inside handle");
+    isRequired("firstNameErr", userInfo.firstName, "First name is required.");
+    isRequired("lastNameErr", userInfo.lastName, "Last name is required.");
+    isRequired("emailErr", userInfo.email, "Email is required.");
+
+    //check that email has @ symbol
+    if (userInfo.email) {
+      const errMsg = !userInfo.email.includes("@")
+        ? "Email must be valid and include an @ symbol."
+        : "";
+      setErrorMessages((prevErrorMsg) => {
+        return {
+          ...prevErrorMsg,
+          emailErr: errMsg,
+        };
+      });
+    }
+
+    const validatePassword = passwordValidation(userInfo.password);
+
+    setValidatePasswordMessages(validatePassword);
+
+    const checkPasswordsMatch = validator.equals(
+      userInfo.password,
+      confirmedPassword
+    );
+
+    if (!checkPasswordsMatch) {
+      setPasswordsMatchMessage("Passwords must match.");
+    } else {
+      setPasswordsMatchMessage("");
+    }
+
+    //clear passwords on submit
+    setConfirmedPassword("");
+    setUserInfo((prevUserInfo) => {
+      return { ...prevUserInfo, password: "" };
+    });
+
+    if (validatePassword.length > 0 || !checkPasswordsMatch) {
+      return;
+    }
 
     try {
-      console.log("***inside try");
       const res: User = await getData("http://localhost:8000/signup", userInfo);
-      console.log("****after sign up clicked");
-      setUserInfo(res);
-      console.log("****user info is", userInfo);
     } catch (error) {
       alert("User sign up failed");
-      console.log(error);
     }
   }
 
@@ -63,47 +166,55 @@ export default function SignUp() {
           <div className="names-inputs">
             <TextInput
               name="firstName"
-              required={true}
               label="First name"
               textInfo=""
               value={userInfo.firstName}
               onChange={handleOnChange}
+              errorMsg={errorMessages.firstNameErr}
             />
             <TextInput
               name="lastName"
-              required={true}
               label="Last name"
               textInfo=""
               value={userInfo.lastName}
               onChange={handleOnChange}
+              errorMsg={errorMessages.lastNameErr}
             />
           </div>
-          <EmailInput
+          <TextInput
             name="email"
-            required={true}
             label="Email address"
             textInfo=""
             value={userInfo.email}
             onChange={handleOnChange}
+            errorMsg={errorMessages.emailErr}
           />
           <PasswordInput
             name="password"
-            required={true}
             label="Password"
-            textInfo="It must be a combination of minimum 8 letters, numbers, and
-              symbols."
+            textInfo="Password must be a minimum of 8 characters and contain capital letters, lowercase letters, and numbers."
             value={userInfo.password}
-            onChange={handleOnChange}
+            onChange={handlePasswordOnChange}
           />
+          {validatePasswordMessages &&
+            validatePasswordMessages.map((message) => {
+              return (
+                <p id={message} className="form-error-msg">
+                  {message}
+                </p>
+              );
+            })}
           <PasswordInput
-            name="confirmPassword"
-            required={true}
+            name="confirmedPassword"
             label="Confirm Password"
             textInfo=""
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
+            value={confirmedPassword}
+            onChange={handleConfirmedPasswordChange}
           />
-
+          {passwordsMatchMessage && (
+            <p className="form-error-msg">{passwordsMatchMessage}</p>
+          )}
+          <p></p>
           <button type="submit" className="loginSignupSubmit">
             Submit
           </button>
