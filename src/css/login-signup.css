@@ -134,6 +134,15 @@
   color: red;
   font-size: 0.7rem;
 }
+
+.user-exists-error-msg {
+  font-family: var(--poppins);
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
 /* PHONES */
 @media (max-width: 480px) {
   .login-box {

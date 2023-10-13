@@ -10,7 +10,7 @@ import { NavLink } from "react-router-dom";
 library.add(faBars);
 
 export default function Header(props: any) {
-  const loggedIn = localStorage.getItem("user") ? true : false;
+  const loggedIn = localStorage.getItem("currentUser") ? true : false;
 
   const [isByMealMenuShown, setMealMenuShown] = useState(false);
   const [isByCuisineMenuShown, setCuisineMenuShown] = useState(false);
@@ -22,7 +22,7 @@ export default function Header(props: any) {
 
   function handleLogout() {
     props.setUser({ username: "", password: "" });
-    localStorage.removeItem("user");
+    localStorage.removeItem("currentUser");
   }
 
   return (

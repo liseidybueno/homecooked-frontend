@@ -22,6 +22,8 @@ export default function MainPage() {
     return `${formattedHours} ${formattedMinutes}`;
   }
 
+  console.log("****local storage", localStorage.getItem("currentUser"));
+
   return (
     <>
       <section className="main-page--background">

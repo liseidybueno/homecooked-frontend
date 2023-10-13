@@ -1,7 +1,7 @@
 import TextInput from "../components/inputs/TextInput";
 import PasswordInput from "../components/inputs/PasswordInput";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { getData } from "../utils/data-utils";
 import validator from "validator";
 
@@ -34,6 +34,14 @@ export default function SignUp() {
     emailErr: "",
     passwordErr: "",
   });
+
+  const [userExistsMessage, setUserExistsMessage] = useState("");
+
+  let navigate = useNavigate();
+  const routeChange = () => {
+    let path = `/`;
+    navigate(path);
+  };
 
   function handleOnChange(event: any) {
     event.preventDefault();
@@ -109,6 +117,9 @@ export default function SignUp() {
   async function handleSubmit(event: any) {
     event.preventDefault();
 
+    //clear error messsage
+    setUserExistsMessage("");
+
     isRequired("firstNameErr", userInfo.firstName, "First name is required.");
     isRequired("lastNameErr", userInfo.lastName, "Last name is required.");
     isRequired("emailErr", userInfo.email, "Email is required.");
@@ -152,7 +163,22 @@ export default function SignUp() {
     }
 
     try {
-      const res: User = await getData("http://localhost:8000/signup", userInfo);
+      const res: any = await getData("http://localhost:8000/signup", userInfo);
+      console.log("***returned data", res.userExists);
+      if (res.userExists) {
+        setUserExistsMessage(() => {
+          return "This user already exists! Please log in or use a different email address.";
+        });
+      } else {
+        setUserExistsMessage("");
+        localStorage.setItem("currentUser", JSON.stringify(userInfo));
+        console.log("****else block");
+        routeChange();
+        // let navigate = useNavigate();
+        // console.log("****after navigate");
+        // let path = "/";
+        // navigate("/");
+      }
     } catch (error) {
       alert("User sign up failed");
     }
@@ -214,7 +240,9 @@ export default function SignUp() {
           {passwordsMatchMessage && (
             <p className="form-error-msg">{passwordsMatchMessage}</p>
           )}
-          <p></p>
+          {userExistsMessage && (
+            <p className="user-exists-error-msg">{userExistsMessage}</p>
+          )}
           <button type="submit" className="loginSignupSubmit">
             Submit
           </button>
