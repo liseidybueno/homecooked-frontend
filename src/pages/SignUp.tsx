@@ -2,7 +2,7 @@ import TextInput from "../components/inputs/TextInput";
 import PasswordInput from "../components/inputs/PasswordInput";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { getData } from "../utils/data-utils";
+import { createUser } from "../utils/data-utils";
 import validator from "validator";
 
 export default function SignUp(props: any) {
@@ -154,7 +154,10 @@ export default function SignUp(props: any) {
     }
 
     try {
-      const res: any = await getData("http://localhost:8000/signup", userInfo);
+      const res: any = await createUser(
+        "http://localhost:8000/signup",
+        userInfo
+      );
 
       if (res.userExists) {
         setUserExistsMessage(() => {

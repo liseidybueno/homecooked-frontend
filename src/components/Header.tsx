@@ -15,6 +15,7 @@ export default function Header(props: any) {
   const [isProfileMenuShown, setProfileMenuShown] = useState(false);
 
   function handleLogout() {
+    setProfileMenuShown(false);
     props.setUser({ username: "", password: "" });
     localStorage.removeItem("currentUser");
     props.setLoggedIn(false);

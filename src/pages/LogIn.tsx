@@ -1,9 +1,14 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import PasswordInput from "../components/inputs/PasswordInput";
 import { useState } from "react";
 import TextInput from "../components/inputs/TextInput";
+import { getUser } from "../utils/data-utils";
 
 export default function LogIn(props: any) {
+  const [userInfo, setUserInfo] = useState({
+    email: "",
+    password: "",
+  });
   const [errorMessage, setErrorMessage] = useState("");
   const [isRequiredErrors, setIsRequiredErrors] = useState({
     emailErr: "",
@@ -13,7 +18,7 @@ export default function LogIn(props: any) {
   function handleOnChange(event: any) {
     event.preventDefault();
     const { name, value } = event.target;
-    props.setCurrentUser((prevUserInfo: any) => {
+    setUserInfo((prevUserInfo: any) => {
       return {
         ...prevUserInfo,
         [name]: value,
@@ -39,20 +44,57 @@ export default function LogIn(props: any) {
     }
   }
 
+  let navigate = useNavigate();
+  function routeChange() {
+    navigate("/", { state: "/" });
+  }
+
   async function handleSubmit(event: any) {
     event.preventDefault();
 
-    const username = props.username;
-    const password = props.password;
+    const username = userInfo.email;
+    const password = userInfo.password;
 
     isRequired("emailErr", username, "Email address is required.");
     isRequired("passwordErr", password, "Password is required");
 
-    const currentUser = { username, password };
-    props.setCurrentUser(currentUser);
+    try {
+      const res: any = await getUser("http://localhost:8000/login", {
+        email: username,
+        password,
+      });
 
-    //look for the user in the DB and then set local storage to item
-    localStorage.setItem("currentUser", props.currentUser);
+      const loginResponse = res.loginResponse;
+
+      if (loginResponse.canLogin) {
+        setErrorMessage("");
+        localStorage.setItem("currentUser", JSON.stringify(loginResponse.user));
+        props.setLoggedIn(true);
+        routeChange();
+      } else {
+        console.log("****cannot login", loginResponse);
+        setErrorMessage(() => loginResponse.errorMsg);
+      }
+
+      // if (res.userExists) {
+      //   setUserExistsMessage(() => {
+      //     return "This user already exists! Please log in or use a different email address.";
+      //   });
+      // } else {
+      //   setUserExistsMessage("");
+      //   localStorage.setItem("currentUser", JSON.stringify(userInfo));
+      //   props.setLoggedIn(true);
+      //   routeChange();
+      // }
+    } catch (error) {
+      alert("User sign up failed");
+    }
+
+    // const currentUser = { username, password };
+    // props.setCurrentUser(currentUser);
+
+    // //look for the user in the DB and then set local storage to item
+    // localStorage.setItem("currentUser", props.currentUser);
   }
 
   return (
@@ -65,7 +107,7 @@ export default function LogIn(props: any) {
             name="email"
             label="Email address"
             textInfo=""
-            value={props.username}
+            value={userInfo.email}
             onChange={handleOnChange}
             errorMsg={isRequiredErrors.emailErr}
           />
@@ -74,7 +116,7 @@ export default function LogIn(props: any) {
             label="Password"
             textInfo="It must be a combination of minimum 8 letters, numbers, and
               symbols."
-            value={props.password}
+            value={userInfo.password}
             onChange={handleOnChange}
           />
           <p className="form-error-msg">{isRequiredErrors.passwordErr}</p>
