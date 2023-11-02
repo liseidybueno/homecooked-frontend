@@ -135,7 +135,7 @@
   font-size: 0.7rem;
 }
 
-.user-exists-error-msg {
+.signup-login-error-msg {
   font-family: var(--poppins);
   color: red;
   font-size: 0.9rem;

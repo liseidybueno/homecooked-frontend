@@ -1,8 +1,15 @@
 import { NavLink } from "react-router-dom";
-import EmailInput from "../components/inputs/EmailInput";
 import PasswordInput from "../components/inputs/PasswordInput";
+import { useState } from "react";
+import TextInput from "../components/inputs/TextInput";
 
 export default function LogIn(props: any) {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isRequiredErrors, setIsRequiredErrors] = useState({
+    emailErr: "",
+    passwordErr: "",
+  });
+
   function handleOnChange(event: any) {
     event.preventDefault();
     const { name, value } = event.target;
@@ -13,11 +20,33 @@ export default function LogIn(props: any) {
       };
     });
   }
+
+  function isRequired(name: string, value: string, errorMsg: string) {
+    if (value === "") {
+      setIsRequiredErrors((prevErrorMsg) => {
+        return {
+          ...prevErrorMsg,
+          [name]: errorMsg,
+        };
+      });
+    } else {
+      setIsRequiredErrors((prevErrorMsg) => {
+        return {
+          ...prevErrorMsg,
+          [name]: "",
+        };
+      });
+    }
+  }
+
   async function handleSubmit(event: any) {
     event.preventDefault();
 
     const username = props.username;
     const password = props.password;
+
+    isRequired("emailErr", username, "Email address is required.");
+    isRequired("passwordErr", password, "Password is required");
 
     const currentUser = { username, password };
     props.setCurrentUser(currentUser);
@@ -32,29 +61,32 @@ export default function LogIn(props: any) {
         <h1 className="login-header">Welcome Back</h1>
         <p className="login-text">Please log in to continue</p>
         <form onSubmit={handleSubmit} className="login-form">
-          <EmailInput
+          <TextInput
             name="email"
-            required={true}
             label="Email address"
             textInfo=""
             value={props.username}
             onChange={handleOnChange}
+            errorMsg={isRequiredErrors.emailErr}
           />
           <PasswordInput
             name="password"
-            required={true}
             label="Password"
             textInfo="It must be a combination of minimum 8 letters, numbers, and
               symbols."
             value={props.password}
             onChange={handleOnChange}
           />
+          <p className="form-error-msg">{isRequiredErrors.passwordErr}</p>
           <div className="rememberMe-forgotPw">
             <div className="rememberMe">
               <input type="checkbox" name="rememberMe"></input>
               <label className="checkbox-label">Remember me</label>
             </div>
             <span className="forgot-password">Forgot password?</span>
+          </div>
+          <div>
+            <p className="signup-login-error-msg">{errorMessage}</p>
           </div>
           <button className="loginSignupSubmit">Log In</button>
         </form>

@@ -5,14 +5,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { getData } from "../utils/data-utils";
 import validator from "validator";
 
-export default function SignUp() {
-  type User = {
-    id: number;
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-  };
+export default function SignUp(props: any) {
   const [userInfo, setUserInfo] = useState({
     firstName: "",
     lastName: "",
@@ -37,12 +30,6 @@ export default function SignUp() {
 
   const [userExistsMessage, setUserExistsMessage] = useState("");
 
-  let navigate = useNavigate();
-  const routeChange = () => {
-    let path = `/`;
-    navigate(path);
-  };
-
   function handleOnChange(event: any) {
     event.preventDefault();
     const { name, value } = event.target;
@@ -60,7 +47,6 @@ export default function SignUp() {
 
     const password = event.target.value;
 
-    // setValidatePasswordMessages(passwordValidation(password));
     setUserInfo((prevUserInfo) => {
       return {
         ...prevUserInfo,
@@ -114,6 +100,11 @@ export default function SignUp() {
     }
   }
 
+  let navigate = useNavigate();
+  function routeChange() {
+    navigate("/", { state: "/" });
+  }
+
   async function handleSubmit(event: any) {
     event.preventDefault();
 
@@ -164,7 +155,7 @@ export default function SignUp() {
 
     try {
       const res: any = await getData("http://localhost:8000/signup", userInfo);
-      console.log("***returned data", res.userExists);
+
       if (res.userExists) {
         setUserExistsMessage(() => {
           return "This user already exists! Please log in or use a different email address.";
@@ -172,12 +163,8 @@ export default function SignUp() {
       } else {
         setUserExistsMessage("");
         localStorage.setItem("currentUser", JSON.stringify(userInfo));
-        console.log("****else block");
+        props.setLoggedIn(true);
         routeChange();
-        // let navigate = useNavigate();
-        // console.log("****after navigate");
-        // let path = "/";
-        // navigate("/");
       }
     } catch (error) {
       alert("User sign up failed");
@@ -241,7 +228,7 @@ export default function SignUp() {
             <p className="form-error-msg">{passwordsMatchMessage}</p>
           )}
           {userExistsMessage && (
-            <p className="user-exists-error-msg">{userExistsMessage}</p>
+            <p className="signup-login-error-msg">{userExistsMessage}</p>
           )}
           <button type="submit" className="loginSignupSubmit">
             Submit

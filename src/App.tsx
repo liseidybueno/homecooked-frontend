@@ -1,6 +1,6 @@
 import "./css/App.css";
 import Header from "./components/Header";
-import MainPage from "./pages/MainPageSections/MainPage";
+import MainPage from "./pages/MainPage";
 import Footer from "./components/Footer";
 import LogIn from "./pages/LogIn";
 import { Routes, Route } from "react-router-dom";
@@ -14,10 +14,15 @@ function App() {
     username: "",
     password: "",
   });
+  const [loggedIn, setLoggedIn] = useState(localStorage.getItem("currentUser"));
 
   return (
     <>
-      <Header setUser={setCurrentUser} />
+      <Header
+        setUser={setCurrentUser}
+        loggedIn={loggedIn}
+        setLoggedIn={setLoggedIn}
+      />
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route
@@ -33,7 +38,7 @@ function App() {
             />
           }
         />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signup" element={<SignUp setLoggedIn={setLoggedIn} />} />
       </Routes>
 
       {/* <Route path="/" element={<MainPage />} /> */}

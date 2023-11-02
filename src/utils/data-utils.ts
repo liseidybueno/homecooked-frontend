@@ -15,7 +15,7 @@ export const getData = async <T>(
     body: JSON.stringify({ user }),
   });
 
-  console.log("******data", res.body);
+  localStorage.setItem("currentUser", JSON.stringify(res.body));
 
   return await res.json();
 };

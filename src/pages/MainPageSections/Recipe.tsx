@@ -35,8 +35,6 @@ export default function Recipe(props: {
   }
 
   function getStars(rating: number) {
-    console.log(rating % 1 !== 0);
-
     let stars: JSX.Element[] = [];
 
     //if not a decimal, then return whole num of stars

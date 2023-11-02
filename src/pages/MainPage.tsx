@@ -1,7 +1,7 @@
-import TertiaryButton from "../../components/buttons/TertiaryButton";
-import Recipe from "./Recipe";
-import topRecipes from "../../mocks/top-recipes.json";
-import SearchByMeal from "./SearchByMeal";
+import TertiaryButton from "../components/buttons/TertiaryButton";
+import Recipe from "./MainPageSections/Recipe";
+import topRecipes from "../mocks/top-recipes.json";
+import SearchByMeal from "./MainPageSections/SearchByMeal";
 
 export default function MainPage() {
   function formatTime(time: number) {
@@ -21,8 +21,6 @@ export default function MainPage() {
 
     return `${formattedHours} ${formattedMinutes}`;
   }
-
-  console.log("****local storage", localStorage.getItem("currentUser"));
 
   return (
     <>
