@@ -6,6 +6,7 @@ import LogIn from "./pages/LogIn";
 import { Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import SignUp from "./pages/SignUp";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
   const [username, setUsername] = useState("");
@@ -25,21 +26,9 @@ function App() {
       />
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route
-          path="/login"
-          element={
-            <LogIn
-              username={username}
-              setUsername={setUsername}
-              password={password}
-              setPassword={setPassword}
-              user={currentUser}
-              setUser={setCurrentUser}
-              setLoggedIn={setLoggedIn}
-            />
-          }
-        />
+        <Route path="/login" element={<LogIn setLoggedIn={setLoggedIn} />} />
         <Route path="/signup" element={<SignUp setLoggedIn={setLoggedIn} />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
       </Routes>
 
       {/* <Route path="/" element={<MainPage />} /> */}

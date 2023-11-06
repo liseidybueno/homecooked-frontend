@@ -1,7 +1,7 @@
-import TertiaryButton from "../components/buttons/TertiaryButton";
 import Recipe from "./MainPageSections/Recipe";
 import topRecipes from "../mocks/top-recipes.json";
 import SearchByMeal from "./MainPageSections/SearchByMeal";
+import Button from "../components/Button";
 
 export default function MainPage() {
   function formatTime(time: number) {
@@ -35,14 +35,12 @@ export default function MainPage() {
               super simple to set up an online recipe book!
             </p>
             <div className="main-page--butons">
-              <TertiaryButton
-                className="tertiary-btn-dark"
-                text="Search Recipes"
-              />
-              <TertiaryButton
-                className="tertiary-btn-light"
-                text="Create a Recipe"
-              />
+              <Button className="tertiary-button tertiary-btn-dark">
+                Search Recipes
+              </Button>
+              <Button className="tertiary-button tertiary-btn-light">
+                Create a Recipe
+              </Button>
             </div>
           </div>
         </div>

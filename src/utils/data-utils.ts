@@ -24,7 +24,6 @@ export const getUser = async <T>(
   url: string,
   user: {
     email: string;
-    password: string;
   }
 ): Promise<T> => {
   const res = await fetch(url, {

@@ -62,40 +62,28 @@ export default function LogIn(props: any) {
     try {
       const res: any = await getUser("http://localhost:8000/login", {
         email: username,
-        password,
       });
 
       const loginResponse = res.loginResponse;
 
       if (loginResponse.canLogin) {
-        setErrorMessage("");
-        localStorage.setItem("currentUser", JSON.stringify(loginResponse.user));
-        props.setLoggedIn(true);
-        routeChange();
+        if (password === loginResponse.user.password) {
+          setErrorMessage("");
+          localStorage.setItem(
+            "currentUser",
+            JSON.stringify(loginResponse.user)
+          );
+          props.setLoggedIn(true);
+          routeChange();
+        } else {
+          setErrorMessage(() => "Password is incorrect. Please try again.");
+        }
       } else {
-        console.log("****cannot login", loginResponse);
         setErrorMessage(() => loginResponse.errorMsg);
       }
-
-      // if (res.userExists) {
-      //   setUserExistsMessage(() => {
-      //     return "This user already exists! Please log in or use a different email address.";
-      //   });
-      // } else {
-      //   setUserExistsMessage("");
-      //   localStorage.setItem("currentUser", JSON.stringify(userInfo));
-      //   props.setLoggedIn(true);
-      //   routeChange();
-      // }
     } catch (error) {
       alert("User sign up failed");
     }
-
-    // const currentUser = { username, password };
-    // props.setCurrentUser(currentUser);
-
-    // //look for the user in the DB and then set local storage to item
-    // localStorage.setItem("currentUser", props.currentUser);
   }
 
   return (
