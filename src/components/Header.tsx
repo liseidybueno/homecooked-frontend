@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "../css/App.css";
-import PrimaryButton from "./buttons/PrimaryButton";
-import SecondaryButton from "./buttons/SecondaryButton";
+import Button from "./Button";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -92,7 +91,9 @@ export default function Header(props: any) {
             {isProfileMenuShown && (
               <div className="profile-menu navbar-dropdown-menu">
                 <ul className="navbar-dropdown-menu-items">
+                  {/* <NavLink to="/"> */}
                   <li className="profile-menu-item">Home</li>
+                  {/* </NavLink> */}
                   <li className="profile-menu-item">Profile</li>
                   <li className="profile-menu-item">My Recipes</li>
                   <li className="profile-menu-item">Add Recipe</li>
@@ -109,10 +110,12 @@ export default function Header(props: any) {
         ) : (
           <div className="right-side-nav">
             <NavLink to="/login">
-              <PrimaryButton className="login-button" text="Log In" />
+              <Button className="primary-button login-button">Log In</Button>
             </NavLink>
             <NavLink to="/signup">
-              <SecondaryButton className="signup-button" text="Sign Up" />
+              <Button className="secondary-button signup-button">
+                Sign Up
+              </Button>
             </NavLink>
           </div>
         )}

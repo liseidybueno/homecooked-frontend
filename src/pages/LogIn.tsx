@@ -3,6 +3,7 @@ import PasswordInput from "../components/inputs/PasswordInput";
 import { useState } from "react";
 import TextInput from "../components/inputs/TextInput";
 import { getUser } from "../utils/data-utils";
+import Button from "../components/Button";
 
 export default function LogIn(props: any) {
   const [userInfo, setUserInfo] = useState({
@@ -130,7 +131,7 @@ export default function LogIn(props: any) {
           <div>
             <p className="signup-login-error-msg">{errorMessage}</p>
           </div>
-          <button className="loginSignupSubmit">Log In</button>
+          <Button className="primary-button loginSignupSubmit">Log In</Button>
         </form>
         <div className="oAuth-login-container">
           <p>Or log in with:</p>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { createUser } from "../utils/data-utils";
 import validator from "validator";
+import Button from "../components/Button";
 
 export default function SignUp(props: any) {
   const [userInfo, setUserInfo] = useState({
@@ -233,9 +234,7 @@ export default function SignUp(props: any) {
           {userExistsMessage && (
             <p className="signup-login-error-msg">{userExistsMessage}</p>
           )}
-          <button type="submit" className="loginSignupSubmit">
-            Submit
-          </button>
+          <Button className="primary-button loginSignupSubmit">Submit</Button>
         </form>
         <div className="oAuth-login-container">
           <p>Or sign up with:</p>
